@@ -7,5 +7,6 @@ export const Appdatasource=new DataSource({
     password: "uajms",
     port: 5432,
     database: "typeormts",
-    entities: []
+    entities: [],
+    logging: true
 })
