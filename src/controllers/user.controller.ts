@@ -23,3 +23,17 @@ export const createUser=async(req:Request, res:Response)=>{
     console.log(user)
     res.send("hello world")
 }
+
+export const updateUser=async(req: Request, res: Response)=>{
+    const { id }=req.params;
+    const { firstname, lastname}=req.body
+
+    const user= await User.findOneBy({id: parseInt(id)})
+
+    if (user) {
+        
+        console.log(user);
+    }else{
+        return res.json({message: "User doesn't exist"})
+    }
+}
