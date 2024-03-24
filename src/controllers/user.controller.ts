@@ -20,7 +20,6 @@ export const createUser=async(req:Request, res:Response)=>{
     user.lastname=lastname;
 
     const userCreate=await user.save()
-    console.log(user)
     return res.status(200).json(userCreate)
 }
 
@@ -35,6 +34,7 @@ export const updateUser=async(req: Request, res: Response)=>{
             id: parseInt(id)},{
             firstname, lastname});
         console.log(userUpdate);
+        return res.status(200).json(userUpdate)
     }else{
         return res.json({message: "User doesn't exist"})
     }
