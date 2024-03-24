@@ -13,14 +13,20 @@ export const getUsers=async(req:Request, res:Response)=>{
 }
 
 export const createUser=async(req:Request, res:Response)=>{
-    const {firstname, lastname}= req.body;
-
-    const user=new User()
-    user.firstname=firstname;
-    user.lastname=lastname;
-
-    const userCreate=await user.save()
-    return res.status(200).json(userCreate)
+    try {
+            const {firstname, lastname}= req.body;
+        
+            const user=new User()
+            user.firstname=firstname;
+            user.lastname=lastname;
+        
+            const userCreate=await user.save()
+            return res.status(200).json(userCreate)        
+    } catch (error) {        
+        if (error instanceof Error) {
+            return res.status(500).json({message: error.message})
+        }
+    }
 }
 
 export const updateUser=async(req: Request, res: Response)=>{
@@ -40,14 +46,15 @@ export const updateUser=async(req: Request, res: Response)=>{
         return res.json({message: "User doesn't exist"})
     }
     } catch (error) {
-        return res.status(500).json({error})
+        if (error instanceof Error) {
+            return res.status(500).json({message: error.message})
+        }
     }
 }
 
 export const deleteUser= async (req: Request, res: Response)=>{
     try {
         const { id }=req.params
-
         const userDelete = await User.delete({id: parseInt(id)})
 
         if (userDelete.affected === 0) {
@@ -56,7 +63,7 @@ export const deleteUser= async (req: Request, res: Response)=>{
         return res.status(200).json(userDelete)
     } catch (error) {
         if (error instanceof Error) {
-            return res.status(500).json({message: error})
+            return res.status(500).json({message: error.message})
         }
     }
 }
@@ -65,13 +72,15 @@ export const getUserById= async ( req : Request, res : Response ) => {
     try {
         const { id } = req.params
 
+        // throw new Error("my error!!!")
         const userById = await User.findOneBy({id: parseInt(id)})
 
         return res.status(200).json(userById)
 
     } catch (error) {
-
-        return res.status(500).json(error)
-
+        if (error instanceof Error) {
+            return res.status(500).json({message: error.message})
+        }
+    
     }
 }
