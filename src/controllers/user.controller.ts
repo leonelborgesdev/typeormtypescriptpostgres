@@ -19,9 +19,9 @@ export const createUser=async(req:Request, res:Response)=>{
     user.firstname=firstname;
     user.lastname=lastname;
 
-    await user.save()
+    const userCreate=await user.save()
     console.log(user)
-    res.send("hello world")
+    return res.status(200).json(userCreate)
 }
 
 export const updateUser=async(req: Request, res: Response)=>{
@@ -31,8 +31,10 @@ export const updateUser=async(req: Request, res: Response)=>{
     const user= await User.findOneBy({id: parseInt(id)})
 
     if (user) {
-        
-        console.log(user);
+        const userUpdate= await User.update({
+            id: parseInt(id)},{
+            firstname, lastname});
+        console.log(userUpdate);
     }else{
         return res.json({message: "User doesn't exist"})
     }
