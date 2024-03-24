@@ -58,3 +58,11 @@ export const deleteUser= async (req: Request, res: Response)=>{
         return res.status(500).json(error)
     }
 }
+
+export const getUserById= async ( req : Request, res : Response ) => {
+    const { id } = req.params
+
+    const userById = await User.findOneBy({id: parseInt(id)})
+
+    return res.status(200).json(userById)
+}
