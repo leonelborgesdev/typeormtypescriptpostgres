@@ -40,17 +40,21 @@ export const updateUser=async(req: Request, res: Response)=>{
         return res.json({message: "User doesn't exist"})
     }
     } catch (error) {
-        return res.status(400).json({error})
+        return res.status(500).json({error})
     }
 }
 
 export const deleteUser= async (req: Request, res: Response)=>{
-    const { id }=req.params
+    try {
+        const { id }=req.params
 
-    const userDelete = await User.delete({id: parseInt(id)})
+        const userDelete = await User.delete({id: parseInt(id)})
 
-    if (userDelete.affected === 0) {
-        return res.status(400).json({message: "User not found"})
+        if (userDelete.affected === 0) {
+            return res.status(400).json({message: "User not found"})
+        }
+        return res.status(200).json(userDelete)
+    } catch (error) {
+        return res.status(500).json(error)
     }
-    return res.status(200).json(userDelete)
 }
