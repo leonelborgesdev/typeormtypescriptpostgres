@@ -55,14 +55,23 @@ export const deleteUser= async (req: Request, res: Response)=>{
         }
         return res.status(200).json(userDelete)
     } catch (error) {
-        return res.status(500).json(error)
+        if (error instanceof Error) {
+            return res.status(500).json({message: error})
+        }
     }
 }
 
 export const getUserById= async ( req : Request, res : Response ) => {
-    const { id } = req.params
+    try {
+        const { id } = req.params
 
-    const userById = await User.findOneBy({id: parseInt(id)})
+        const userById = await User.findOneBy({id: parseInt(id)})
 
-    return res.status(200).json(userById)
+        return res.status(200).json(userById)
+
+    } catch (error) {
+
+        return res.status(500).json(error)
+
+    }
 }
