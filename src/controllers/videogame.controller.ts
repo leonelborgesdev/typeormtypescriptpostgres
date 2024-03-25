@@ -10,10 +10,10 @@ export const getAllVideogames =async ( req : Request, res : Response )=>{
         console.log(allVideogames.length)
         if (allVideogames.length === 0) {
             const apikeyVidogame = process.env.apikeyVidogame ? process.env.apikeyVidogame.toString() : "";
-            const videogamesApi= getVideogamesapi(apikeyVidogame)
+            const videogamesApi= await getVideogamesapi(apikeyVidogame)
             return res.status(200).json(videogamesApi)
         }
-        return res.json(allVideogames)
+        return res.status(200).json(allVideogames)
     } catch (error) {
         if (error instanceof Error) {
             return res.status(500).json({message: error.message})
