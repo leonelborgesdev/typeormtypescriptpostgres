@@ -8,9 +8,8 @@ export const getVideoGamesApi= async ( api : string) =>{
     if (api != "") {
         if (result) {
             const data= result.data.results;
-            const listVideogame=data.map((videogame : videogameInterface)=>{
+            const listVideogame = data.map((videogame : videogameInterface)=>{
                 let platformsApi="";
-                // console.log("platform_videogame",videogame.platforms)
                 videogame.platforms.map((platform:{
                     platform: {id: number, name: string},
                     name: string
@@ -30,8 +29,8 @@ export const getVideoGamesApi= async ( api : string) =>{
                     platforms : platformsApi
                 }
             })
-            console.log(listVideogame)
-            return data;
+            // console.log(listVideogame)
+            return listVideogame;
         }
     }
     return []
