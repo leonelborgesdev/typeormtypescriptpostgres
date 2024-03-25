@@ -12,7 +12,5 @@ export class videogameInterface{
 
     released : string
 
-    // Rating : string
-
-    // Platforms : string
+    platforms : []
 }
