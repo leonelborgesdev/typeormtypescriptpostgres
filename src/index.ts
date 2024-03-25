@@ -4,9 +4,10 @@ import { Appdatasource } from "./db";
 
 async function main() {
     try {        
+        const port=process.env.PORTSERVER || 3000;
         await Appdatasource.initialize()
-        app.listen(3000)
-        console.log('server on port ', 3000)
+        app.listen(port)
+        console.log('server on port ', port)
     } catch (error) {
         console.log(error)
     }
