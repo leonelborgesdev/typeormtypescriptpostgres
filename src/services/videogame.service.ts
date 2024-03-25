@@ -1,5 +1,6 @@
 import axios from "axios";
 import { videogameApiInterface, videogameInterfaceModel } from "../types/videogame";
+import { videogame } from "../entities/videogame";
 
 
 export const getVideoGamesApi= async ( api : string) =>{
@@ -30,26 +31,17 @@ export const getVideoGamesApi= async ( api : string) =>{
                 }
                 listVideogame.push(videoGameReturn);
             })
-            const VideogamesNextPage= await getVideoGamesApiPage(`https://api.rawg.io/api/games?key=${api}&page=2`);
-            // const ObjectVideoGame=new VideoGame();
-                            
-            // ObjectVideoGame.id= videogameObj.id.toString()
-            // ObjectVideoGame.Nombre= videogameObj.name
-            // ObjectVideoGame.Image = videogameObj.background_image
-            // ObjectVideoGame.Rating = videogameObj.rating
-            // ObjectVideoGame.Fecha_lanzamiento = videogameObj.released
-            // ObjectVideoGame.Plataformas = platformsApi
-            // ObjectVideoGame.Descripción = ""
-            // await ObjectVideoGame.save()
+            const VideogamesNextPage= await getVideoGamesApiPage(`https://api.rawg.io/api/games?key=${api}&page=2`,listVideogame);
             console.log(listVideogame,"listvideogame")
             console.log(VideogamesNextPage,"VideogamesNextPage")
+            await createListVideoGames(listVideogame)
             return listVideogame;
         }
     }
     return []
 }
 
-export const getVideoGamesApiPage = async (api: string)=>{
+export const getVideoGamesApiPage = async (api: string, listVideogame:any)=>{
     const ApiPage= await axios(api);
     if (ApiPage) {
         const data= ApiPage.data.results;
@@ -65,7 +57,7 @@ export const getVideoGamesApiPage = async (api: string)=>{
                     platformsApi=platformsApi+platform.platform.name+", "
                 }
             })
-            return {
+            const videogameReturn= {
                 id: videogameObj.id.toString(),
                 name: videogameObj.name,
                 background_image : videogameObj.background_image,                
@@ -73,6 +65,22 @@ export const getVideoGamesApiPage = async (api: string)=>{
                 released : videogameObj.released,
                 platforms : platformsApi
             }
+            listVideogame.push(videogameReturn);
+            return videogameReturn
         })
     }
+}
+export const createListVideoGames= async(listVideogame:any)=>{
+    listVideogame.map(async (videogameObj:any)=>{
+        const ObjectVideoGame=new videogame();
+                            
+        ObjectVideoGame.id= videogameObj.id.toString()
+        ObjectVideoGame.Nombre= videogameObj.name
+        ObjectVideoGame.Image = videogameObj.background_image
+        ObjectVideoGame.Rating = videogameObj.rating
+        ObjectVideoGame.Fecha_lanzamiento = videogameObj.released
+        ObjectVideoGame.Plataformas = videogameObj.platforms
+        ObjectVideoGame.Descripción = ""
+        await ObjectVideoGame.save()
+    })
 }
