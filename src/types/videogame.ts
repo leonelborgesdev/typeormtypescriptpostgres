@@ -1,17 +1,17 @@
 
 class videogame{
     
-    ID: number
+    id: number
 
-    Nombre : string
+    name : string
 
-    Image : string
+    background_image : string
 
-    Descripción : string
+    description : string
 
     Fecha_lanzamiento : string
 
     Rating : string
 
-    Plataformas : string
+    Platforms : string
 }
