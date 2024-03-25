@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { User } from "../entities/User";
 
-export const getUsers=async(req:Request, res:Response)=>{
+export const getUsers = async( req : Request, res : Response )=>{
     try {
         const users=await User.find();
         return res.json(users)
@@ -12,7 +12,7 @@ export const getUsers=async(req:Request, res:Response)=>{
     }
 }
 
-export const createUser=async(req:Request, res:Response)=>{
+export const createUser = async ( req : Request , res : Response )=>{
     try {
             const {firstname, lastname}= req.body;
         
@@ -29,7 +29,7 @@ export const createUser=async(req:Request, res:Response)=>{
     }
 }
 
-export const updateUser=async(req: Request, res: Response)=>{
+export const updateUser = async ( req : Request, res: Response)=>{
     try {
         const { id }=req.params;
     const { firstname, lastname}=req.body
@@ -52,7 +52,7 @@ export const updateUser=async(req: Request, res: Response)=>{
     }
 }
 
-export const deleteUser= async (req: Request, res: Response)=>{
+export const deleteUser = async ( req : Request, res : Response)=>{
     try {
         const { id }=req.params
         const userDelete = await User.delete({id: parseInt(id)})
