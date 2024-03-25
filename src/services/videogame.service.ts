@@ -1,4 +1,5 @@
 import axios from "axios";
+import { videogameInterface } from "../types/videogame";
 
 
 export const getVideoGamesApi= async ( api : string) =>{
@@ -6,14 +7,16 @@ export const getVideoGamesApi= async ( api : string) =>{
     if (api != "") {
         if (result) {
             const data= result.data.results;
-            data.map((videogame : {
-                id : number,
-                name: string})=>{
+            const listVideogame=data.map((videogame : videogameInterface)=>{
                 return {
                     id: videogame.id,
-                    name: videogame.name
+                    name: videogame.name,
+                    background_image : videogame.background_image,                
+                    rating : videogame.rating,                
+                    released : videogame.released
                 }
             })
+            console.log(listVideogame)
             return data;
         }
     }

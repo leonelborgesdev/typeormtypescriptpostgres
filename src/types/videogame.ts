@@ -1,5 +1,6 @@
+import { Double } from "typeorm"
 
-class videogame{
+export class videogameInterface{
     
     id: number
 
@@ -7,11 +8,11 @@ class videogame{
 
     background_image : string
 
-    description : string
+    rating : Double
 
-    Fecha_lanzamiento : string
+    released : string
 
-    Rating : string
+    // Rating : string
 
-    Platforms : string
+    // Platforms : string
 }
