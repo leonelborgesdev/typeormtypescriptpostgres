@@ -1,7 +1,7 @@
-import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from "typeorm"
+import { BaseEntity, Column, CreateDateColumn, Double, Entity, PrimaryColumn, UpdateDateColumn } from "typeorm"
 
 @Entity()
-export class videogame extends BaseEntity{
+export class VideoGame extends BaseEntity{
     
     @PrimaryColumn()
     id: string
@@ -18,8 +18,8 @@ export class videogame extends BaseEntity{
     @Column()
     Fecha_lanzamiento : string
 
-    @Column()
-    Rating : string
+    @Column("float", { default : 0, nullable: false})
+    Rating : number
 
     @Column()
     Plataformas : string

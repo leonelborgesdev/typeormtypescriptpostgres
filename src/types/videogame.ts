@@ -2,13 +2,13 @@ import { Double } from "typeorm"
 
 export class videogameInterface{
     
-    id: number
+    id: string
 
     name : string
 
     background_image : string
 
-    rating : Double
+    rating : number
 
     released : string
 

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { videogameInterface } from "../types/videogame";
-import { platform } from "os";
+import { VideoGame } from "../entities/videogame";
 
 
 export const getVideoGamesApi= async ( api : string) =>{
@@ -8,28 +8,40 @@ export const getVideoGamesApi= async ( api : string) =>{
     if (api != "") {
         if (result) {
             const data= result.data.results;
-            const listVideogame = data.map((videogame : videogameInterface)=>{
+            let listVideogame:any = [];
+            data.map(async (videogameObj : videogameInterface)=>{
                 let platformsApi="";
-                videogame.platforms.map((platform:{
-                    platform: {id: number, name: string},
+                videogameObj.platforms.map((platform:{
+                    platform: {id: string, name: string},
                     name: string
                 }, index: number)=>{
-                    if(videogame.platforms.length-1 === index){
+                    if(videogameObj.platforms.length-1 === index){
                         platformsApi=platformsApi+`${platform.platform.name}.`
                     }else{
                         platformsApi=platformsApi+platform.platform.name+", "
                     }
                 })
-                return {
-                    id: videogame.id,
-                    name: videogame.name,
-                    background_image : videogame.background_image,                
-                    rating : videogame.rating,                
-                    released : videogame.released,
+                const videoGameReturn= {
+                    id: videogameObj.id.toString(),
+                    name: videogameObj.name,
+                    background_image : videogameObj.background_image,                
+                    rating : videogameObj.rating,                
+                    released : videogameObj.released,
                     platforms : platformsApi
                 }
+                const ObjectVideoGame=new VideoGame();
+                
+                ObjectVideoGame.id= videogameObj.id.toString()
+                ObjectVideoGame.Nombre= videogameObj.name
+                ObjectVideoGame.Image = videogameObj.background_image
+                ObjectVideoGame.Rating = videogameObj.rating
+                ObjectVideoGame.Fecha_lanzamiento = videogameObj.released
+                ObjectVideoGame.Plataformas = platformsApi
+                ObjectVideoGame.Descripción = ""
+                await ObjectVideoGame.save()
+                listVideogame.push(videoGameReturn);
             })
-            // console.log(listVideogame)
+            console.log(listVideogame,"listvideogame")
             return listVideogame;
         }
     }
