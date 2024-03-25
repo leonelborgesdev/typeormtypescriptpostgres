@@ -1,16 +1,19 @@
 import { Double } from "typeorm"
 
-export class videogameInterface{
-    
+export interface videogameApiInterface{    
     id: string
-
     name : string
-
     background_image : string
-
     rating : number
-
     released : string
-
     platforms : []
+}
+
+export interface videogameInterfaceModel{
+    id: string            
+    name : string            
+    background_image : string            
+    rating : number            
+    released : string            
+    platforms : string
 }

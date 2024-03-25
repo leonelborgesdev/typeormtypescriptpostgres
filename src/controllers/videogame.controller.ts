@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
-import { VideoGame } from "../entities/videogame";
+import { videogame } from "../entities/videogame";
 import { getVideoGamesApi } from "../services/videogame.service";
 import dotenv from "dotenv";
 dotenv.config()
 
 export const getAllVideogames =async ( req : Request, res : Response )=>{
     try {
-        const allVideogames=await VideoGame.find();
+        const allVideogames=await videogame.find();
         console.log(allVideogames.length)
         if (allVideogames.length === 0) {
             const apikeyVideogame = process.env.apikeyVidogame ? process.env.apikeyVidogame.toString() : "";

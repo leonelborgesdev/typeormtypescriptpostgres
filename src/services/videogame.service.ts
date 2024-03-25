@@ -1,6 +1,5 @@
 import axios from "axios";
-import { videogameInterface } from "../types/videogame";
-import { VideoGame } from "../entities/videogame";
+import { videogameApiInterface, videogameInterfaceModel } from "../types/videogame";
 
 
 export const getVideoGamesApi= async ( api : string) =>{
@@ -8,8 +7,8 @@ export const getVideoGamesApi= async ( api : string) =>{
     if (api != "") {
         if (result) {
             const data= result.data.results;
-            let listVideogame:any = [];
-            data.map(async (videogameObj : videogameInterface)=>{
+            let listVideogame : Array<videogameInterfaceModel> = new Array<videogameInterfaceModel>();
+            data.map((videogameObj : videogameApiInterface)=>{
                 let platformsApi="";
                 videogameObj.platforms.map((platform:{
                     platform: {id: string, name: string},
@@ -29,21 +28,51 @@ export const getVideoGamesApi= async ( api : string) =>{
                     released : videogameObj.released,
                     platforms : platformsApi
                 }
-                const ObjectVideoGame=new VideoGame();
-                
-                ObjectVideoGame.id= videogameObj.id.toString()
-                ObjectVideoGame.Nombre= videogameObj.name
-                ObjectVideoGame.Image = videogameObj.background_image
-                ObjectVideoGame.Rating = videogameObj.rating
-                ObjectVideoGame.Fecha_lanzamiento = videogameObj.released
-                ObjectVideoGame.Plataformas = platformsApi
-                ObjectVideoGame.Descripción = ""
-                await ObjectVideoGame.save()
                 listVideogame.push(videoGameReturn);
             })
+            const VideogamesNextPage= await getVideoGamesApiPage(`https://api.rawg.io/api/games?key=${api}&page=2`);
+            // const ObjectVideoGame=new VideoGame();
+                            
+            // ObjectVideoGame.id= videogameObj.id.toString()
+            // ObjectVideoGame.Nombre= videogameObj.name
+            // ObjectVideoGame.Image = videogameObj.background_image
+            // ObjectVideoGame.Rating = videogameObj.rating
+            // ObjectVideoGame.Fecha_lanzamiento = videogameObj.released
+            // ObjectVideoGame.Plataformas = platformsApi
+            // ObjectVideoGame.Descripción = ""
+            // await ObjectVideoGame.save()
             console.log(listVideogame,"listvideogame")
+            console.log(VideogamesNextPage,"VideogamesNextPage")
             return listVideogame;
         }
     }
     return []
+}
+
+export const getVideoGamesApiPage = async (api: string)=>{
+    const ApiPage= await axios(api);
+    if (ApiPage) {
+        const data= ApiPage.data.results;
+        return data.map((videogameObj : videogameApiInterface)=>{
+            let platformsApi="";
+            videogameObj.platforms.map((platform:{
+                platform: {id: string, name: string},
+                name: string
+            }, index: number)=>{
+                if(videogameObj.platforms.length-1 === index){
+                    platformsApi=platformsApi+`${platform.platform.name}.`
+                }else{
+                    platformsApi=platformsApi+platform.platform.name+", "
+                }
+            })
+            return {
+                id: videogameObj.id.toString(),
+                name: videogameObj.name,
+                background_image : videogameObj.background_image,                
+                rating : videogameObj.rating,                
+                released : videogameObj.released,
+                platforms : platformsApi
+            }
+        })
+    }
 }

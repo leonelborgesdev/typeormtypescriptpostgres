@@ -1,6 +1,6 @@
 import { DataSource } from "typeorm";
 import { User } from "./entities/User";
-import { VideoGame } from "./entities/videogame";
+import { videogame } from "./entities/videogame";
 import dotenv from "dotenv";
 import { genres } from "./entities/genres";
 dotenv.config()
@@ -14,7 +14,7 @@ export const Appdatasource=new DataSource({
     password: process.env.PASSWORD,
     port: port,
     database: process.env.DATABASE,
-    entities: [ User, VideoGame, genres],
+    entities: [ User, videogame, genres],
     logging: true,
     synchronize: true
 })
