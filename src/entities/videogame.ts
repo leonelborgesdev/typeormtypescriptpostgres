@@ -4,7 +4,7 @@ import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDate
 export class videogame extends BaseEntity{
     
     @PrimaryColumn()
-    ID: number
+    id: string
 
     @Column()
     Nombre : string
