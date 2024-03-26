@@ -1,5 +1,5 @@
 import axios from "axios";
-import { videogameApiInterface, videogameInterfaceModel } from "../types/videogame";
+import { videogameApiInterface, videogameInterfaceModel } from "../types/videoGamesType";
 import { videogame } from "../entities/videogame";
 
 

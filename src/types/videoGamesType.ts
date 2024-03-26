@@ -1,4 +1,3 @@
-import { Double } from "typeorm"
 
 export interface videogameApiInterface{    
     id: string
