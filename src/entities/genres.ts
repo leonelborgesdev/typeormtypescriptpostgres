@@ -16,6 +16,6 @@ export class genres extends BaseEntity{
     @UpdateDateColumn()
     updateAt: Date
 
-    @ManyToMany(() => videogame, (videogame) => videogame.genre)
+    @ManyToMany(() => videogame, (videogame) => videogame.genres)
     videogames: videogame[]
 }

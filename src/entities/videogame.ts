@@ -8,22 +8,22 @@ export class videogame extends BaseEntity{
     id: string
 
     @Column()
-    Nombre : string
+    nombre : string
 
     @Column()
-    Image : string
+    image : string
 
     @Column()
-    Descripción : string
+    descripcion : string
 
     @Column()
-    Fecha_lanzamiento : string
+    fecha_lanzamiento : string
 
     @Column("float", { default : 0, nullable: false})
-    Rating : number
+    rating : number
 
     @Column()
-    Plataformas : string
+    plataformas : string
     
     @CreateDateColumn()
     createAt: Date
@@ -33,5 +33,5 @@ export class videogame extends BaseEntity{
 
     @ManyToMany(() => genres, (genre) => genre.videogames)
     @JoinTable()
-    genre: genres[]
+    genres: genres[]
 }

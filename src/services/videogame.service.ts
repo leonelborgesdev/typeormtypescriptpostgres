@@ -84,7 +84,7 @@ export const getVideoGamesApiPage = async (api: string, listVideogame:any)=>{
 }
 export const createListVideoGames= async(listVideogame:Array<videogameInterfaceModel>)=>{
     listVideogame.map(async (videogameObj : videogameInterfaceModel)=>{
-        let genreslist:any= [];
+        let genreslist : Array<genres>= new Array<genres>();
         videogameObj.genres.map((genre : genrestInterface)=>{
             const objGenre = new genres()
             objGenre.id= genre.id
@@ -95,13 +95,13 @@ export const createListVideoGames= async(listVideogame:Array<videogameInterfaceM
         const ObjectVideoGame=new videogame();
                             
         ObjectVideoGame.id= videogameObj.id.toString()
-        ObjectVideoGame.Nombre= videogameObj.name
-        ObjectVideoGame.Image = videogameObj.background_image
-        ObjectVideoGame.Rating = videogameObj.rating
-        ObjectVideoGame.Fecha_lanzamiento = videogameObj.released
-        ObjectVideoGame.Plataformas = videogameObj.platforms
-        ObjectVideoGame.Descripción = ""
-        ObjectVideoGame.genre = genreslist
+        ObjectVideoGame.nombre= videogameObj.name
+        ObjectVideoGame.image = videogameObj.background_image
+        ObjectVideoGame.rating = videogameObj.rating
+        ObjectVideoGame.fecha_lanzamiento = videogameObj.released
+        ObjectVideoGame.plataformas = videogameObj.platforms
+        ObjectVideoGame.descripcion = ""
+        ObjectVideoGame.genres = genreslist
         await ObjectVideoGame.save()
     })
 }

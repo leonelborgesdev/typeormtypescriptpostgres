@@ -7,7 +7,7 @@ dotenv.config()
 export const getAllVideogames =async ( req : Request, res : Response )=>{
     try {
         const allVideogames=await videogame.find({relations: {
-            genre: true,
+            genres: true,
         }});
         console.log(allVideogames.length)
         if (allVideogames.length === 0) {

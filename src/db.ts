@@ -15,6 +15,6 @@ export const Appdatasource=new DataSource({
     port: port,
     database: process.env.DATABASE,
     entities: [ User, videogame, genres],
-    logging: true,
+    logging: false,
     synchronize: true
 })
