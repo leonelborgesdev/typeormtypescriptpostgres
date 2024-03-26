@@ -31,9 +31,8 @@ export const getVideoGamesApi= async ( api : string) =>{
                 }
                 listVideogame.push(videoGameReturn);
             })
-            const VideogamesNextPage= await getVideoGamesApiPage(`https://api.rawg.io/api/games?key=${api}&page=2`,listVideogame);
-            console.log(listVideogame,"listvideogame")
-            console.log(VideogamesNextPage,"VideogamesNextPage")
+            await getVideoGamesApiPage(`https://api.rawg.io/api/games?key=${api}&page=2`,listVideogame);
+            
             await createListVideoGames(listVideogame)
             return listVideogame;
         }
@@ -45,7 +44,7 @@ export const getVideoGamesApiPage = async (api: string, listVideogame:any)=>{
     const ApiPage= await axios(api);
     if (ApiPage) {
         const data= ApiPage.data.results;
-        return data.map((videogameObj : videogameApiInterface)=>{
+        data.map((videogameObj : videogameApiInterface)=>{
             let platformsApi="";
             videogameObj.platforms.map((platform:{
                 platform: {id: string, name: string},
@@ -66,12 +65,11 @@ export const getVideoGamesApiPage = async (api: string, listVideogame:any)=>{
                 platforms : platformsApi
             }
             listVideogame.push(videogameReturn);
-            return videogameReturn
         })
     }
 }
-export const createListVideoGames= async(listVideogame:any)=>{
-    listVideogame.map(async (videogameObj:any)=>{
+export const createListVideoGames= async(listVideogame:Array<videogameInterfaceModel>)=>{
+    listVideogame.map(async (videogameObj : videogameInterfaceModel)=>{
         const ObjectVideoGame=new videogame();
                             
         ObjectVideoGame.id= videogameObj.id.toString()
@@ -81,6 +79,7 @@ export const createListVideoGames= async(listVideogame:any)=>{
         ObjectVideoGame.Fecha_lanzamiento = videogameObj.released
         ObjectVideoGame.Plataformas = videogameObj.platforms
         ObjectVideoGame.Descripción = ""
+
         await ObjectVideoGame.save()
     })
 }

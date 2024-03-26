@@ -13,7 +13,10 @@ export const getAllVideogames =async ( req : Request, res : Response )=>{
             const videogamesApi= await getVideoGamesApi(apikeyVideogame)
             return res.status(200).json(videogamesApi)
         }
-        return res.status(200).json(allVideogames)
+        return res.status(200).json({
+            ok: true,
+            videogames: allVideogames
+        })
     } catch (error) {
         if (error instanceof Error) {
             console.log(error)
