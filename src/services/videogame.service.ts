@@ -4,8 +4,8 @@ import { videogame } from "../entities/videogame";
 
 
 export const getVideoGamesApi= async ( api : string) =>{
-    const result= await axios(`https://api.rawg.io/api/games?key=${api}`);
     if (api != "") {
+    const result= await axios(`https://api.rawg.io/api/games?key=${api}`);
         if (result) {
             const data= result.data.results;
             let listVideogame : Array<videogameInterfaceModel> = new Array<videogameInterfaceModel>();
