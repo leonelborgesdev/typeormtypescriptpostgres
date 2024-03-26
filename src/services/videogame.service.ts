@@ -1,6 +1,8 @@
 import axios from "axios";
 import { videogameApiInterface, videogameInterfaceModel } from "../types/videoGamesType";
 import { videogame } from "../entities/videogame";
+import { genrestInterface } from "../types/genresType";
+import { genres } from "../entities/genres";
 
 
 export const getVideoGamesApi= async ( api : string) =>{
@@ -27,12 +29,18 @@ export const getVideoGamesApi= async ( api : string) =>{
                     background_image : videogameObj.background_image,                
                     rating : videogameObj.rating,                
                     released : videogameObj.released,
-                    platforms : platformsApi
+                    platforms : platformsApi,
+                    genres : videogameObj.genres.map((genre : genrestInterface)=>{
+                        return {
+                            id : genre.id,
+                            name : genre.name
+                        }
+                    })
                 }
                 listVideogame.push(videoGameReturn);
             })
             await getVideoGamesApiPage(`https://api.rawg.io/api/games?key=${api}&page=2`,listVideogame);
-            
+            console.log(listVideogame)
             await createListVideoGames(listVideogame)
             return listVideogame;
         }
@@ -62,7 +70,13 @@ export const getVideoGamesApiPage = async (api: string, listVideogame:any)=>{
                 background_image : videogameObj.background_image,                
                 rating : videogameObj.rating,                
                 released : videogameObj.released,
-                platforms : platformsApi
+                platforms : platformsApi,
+                genres : videogameObj.genres.map((genre : genrestInterface)=>{
+                    return {
+                        id : genre.id,
+                        name : genre.name
+                    }
+                })
             }
             listVideogame.push(videogameReturn);
         })
@@ -70,6 +84,14 @@ export const getVideoGamesApiPage = async (api: string, listVideogame:any)=>{
 }
 export const createListVideoGames= async(listVideogame:Array<videogameInterfaceModel>)=>{
     listVideogame.map(async (videogameObj : videogameInterfaceModel)=>{
+        let genreslist:any= [];
+        videogameObj.genres.map((genre : genrestInterface)=>{
+            const objGenre = new genres()
+            objGenre.id= genre.id
+            objGenre.nombre= genre.name
+            genreslist.push(objGenre)
+        })
+
         const ObjectVideoGame=new videogame();
                             
         ObjectVideoGame.id= videogameObj.id.toString()
@@ -79,7 +101,7 @@ export const createListVideoGames= async(listVideogame:Array<videogameInterfaceM
         ObjectVideoGame.Fecha_lanzamiento = videogameObj.released
         ObjectVideoGame.Plataformas = videogameObj.platforms
         ObjectVideoGame.Descripción = ""
-
+        ObjectVideoGame.genre = genreslist
         await ObjectVideoGame.save()
     })
 }

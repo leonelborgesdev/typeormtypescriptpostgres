@@ -1,4 +1,4 @@
-import { genrestInterface } from "./genresType"
+import { Double } from "typeorm"
 
 export interface videogameApiInterface{    
     id: string
@@ -7,7 +7,6 @@ export interface videogameApiInterface{
     rating : number
     released : string
     platforms : []
-    genres : Array<genrestInterface>
 }
 
 export interface videogameInterfaceModel{
@@ -17,5 +16,4 @@ export interface videogameInterfaceModel{
     rating : number            
     released : string            
     platforms : string
-    genres : Array<genrestInterface>
 }

@@ -6,7 +6,9 @@ dotenv.config()
 
 export const getAllVideogames =async ( req : Request, res : Response )=>{
     try {
-        const allVideogames=await videogame.find();
+        const allVideogames=await videogame.find({relations: {
+            genre: true,
+        }});
         console.log(allVideogames.length)
         if (allVideogames.length === 0) {
             const apikeyVideogame = process.env.apikeyVidogame ? process.env.apikeyVidogame.toString() : "";
