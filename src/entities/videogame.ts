@@ -1,4 +1,5 @@
-import { BaseEntity, Column, CreateDateColumn, Double, Entity, PrimaryColumn, UpdateDateColumn } from "typeorm"
+import { BaseEntity, Column, CreateDateColumn, Double, Entity, JoinTable, ManyToMany, PrimaryColumn, UpdateDateColumn } from "typeorm"
+import { genres } from "./genres"
 
 @Entity()
 export class videogame extends BaseEntity{
@@ -29,4 +30,8 @@ export class videogame extends BaseEntity{
 
     @UpdateDateColumn()
     updateAt: Date
+
+    @ManyToMany(() => genres, (genre) => genre.videogames)
+    @JoinTable()
+    genre: genres[]
 }
