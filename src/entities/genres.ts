@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Entity, PrimaryColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class genres extends BaseEntity{
@@ -7,5 +7,11 @@ export class genres extends BaseEntity{
     id: string
 
     @Column()
-    name: string
+    nombre: string
+    
+    @CreateDateColumn()
+    createAt: Date
+
+    @UpdateDateColumn()
+    updateAt: Date
 }

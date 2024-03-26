@@ -6,11 +6,10 @@ import { getAllGenresApi } from "../services/genres.service";
 export const getAllGenres= async (req: Request, res: Response)=>{
     try {
         const allGenres= await genres.find();
-        console.log(allGenres);
+        console.log(allGenres.length);
         if (allGenres.length === 0) {            
             const apikeyVideogame = process.env.apikeyVidogame ? process.env.apikeyVidogame.toString() : "";
-            const AllGenresApi= await getAllGenresApi(apikeyVideogame);
-            
+            const AllGenresApi= await getAllGenresApi(apikeyVideogame);            
             return res.status(200).json({
                 ok : true,
                 genres : AllGenresApi
