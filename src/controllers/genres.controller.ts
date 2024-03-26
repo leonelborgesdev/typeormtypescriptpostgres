@@ -11,6 +11,10 @@ export const getAllGenres= async (req: Request, res: Response)=>{
             const apikeyVideogame = process.env.apikeyVidogame ? process.env.apikeyVidogame.toString() : "";
             const AllGenresApi= await getAllGenresApi(apikeyVideogame);
             
+            return res.status(200).json({
+                ok : true,
+                genres : AllGenresApi
+            })
         }
         return res.status(200).json({
             ok : true,
